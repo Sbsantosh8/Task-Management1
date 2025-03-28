@@ -9,7 +9,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ["id", "title", "description", "assigned_to"]
+    list_display = ["id", "title", "description", "assigned_to","status"]
 
 
 admin.site.register(User, UserAdmin)

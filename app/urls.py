@@ -10,6 +10,7 @@ router.register(r"tasks", TaskViewSet, basename="task")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("employee/task/",TaskEmployeeView.as_view(),name="task-employee-view"),
     path(
         "api/login/", CustomTokenObtainPairView.as_view(), name="api_token_auth"
     ),  # Default DRF token endpoint

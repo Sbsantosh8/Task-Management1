@@ -32,19 +32,19 @@ from .serializers import TaskSerializer
 from .permissions import IsTaskOwnerOrManager
 
 
-class TaskEmployeeView(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsTaskOwnerOrManager]
+# class TaskEmployeeView(APIView):
+#     authentication_classes = [JWTAuthentication]
+#     permission_classes = [IsAuthenticated, IsTaskOwnerOrManager]
 
-    def get(self, request):
-        # Fetch tasks assigned to the authenticated user
-        tasks = Task.objects.filter(assigned_to=request.user)
+#     def get(self, request):
+#         # Fetch tasks assigned to the authenticated user
+#         tasks = Task.objects.filter(assigned_to=request.user)
 
-        # Serialize tasks
-        serializer = TaskSerializer(tasks, many=True)
+#         # Serialize tasks
+#         serializer = TaskSerializer(tasks, many=True)
 
-        # Return response with serialized data
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#         # Return response with serialized data
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 from django.contrib.auth import authenticate
@@ -71,10 +71,11 @@ from .permissions import IsTaskOwnerOrManager
 
 class TaskEmployeeView(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,IsTaskOwnerOrManager]
 
     def get(self, request):
         employee = request.user  # Get logged-in user
+        print(f"TaskEmployeeView ..... [user :{employee} ]")
 
         # Fetch only tasks assigned to this employee
         tasks = Task.objects.filter(assigned_to=employee)
@@ -83,3 +84,24 @@ class TaskEmployeeView(APIView):
         serializer = TaskSerializer(tasks, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+
+    def post (self,request):
+        employee = request.user
+        task_id = request.get('id')
+        print(f'task_id {task_id}')
+        tasks = Task.objects.filter(id=task_id,assigned_to=employee)
+        
+        
+        print(f"TaskEmployee POST method user :{employee} and task status is {tasks.status}")
+        data = request.data
+        print(f"status posted {employee} : {data}")
+        serializer = TaskSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+
+        Response(serializer.data,status=status.HTTP_201_CREATED)
+
+        
+
