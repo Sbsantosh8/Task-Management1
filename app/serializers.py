@@ -4,9 +4,13 @@ from .models import Task, User
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField()
     class Meta:
         model = Task
         fields = "__all__"
+        read_only_fields = ["created_by"]
+        
+
 
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
