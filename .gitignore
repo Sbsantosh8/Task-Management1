@@ -1,0 +1,39 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Virtual Environment
+venv/
+.env
+*.env
+
+# Django-specific files
+db.sqlite3
+media/
+staticfiles/
+celerybeat-schedule
+
+# Logs and debug files
+*.log
+debug.log
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# Django Migrations
+*/migrations/*
+
+# Docker files
+*.dockerignore
+Dockerfile
+
+# System files
+.DS_Store
+Thumbs.db

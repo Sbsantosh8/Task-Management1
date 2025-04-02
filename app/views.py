@@ -148,3 +148,27 @@ class TaskEmployeeView(APIView):
 
         
 
+    def put(self, request, *args, **kwargs):
+        # Fetch task ID and the task object
+        task_id = request.data.get("id")
+        print("task_id",task_id)
+        try:
+            task = Task.objects.get(id=task_id)
+        except Task.DoesNotExist:
+            return Response({"error": "Task not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Ensure the request user is either the task owner or a manager
+        if task.created_by != request.user and request.user.role != "manager":
+            raise PermissionDenied("You are not allowed to update this task.")
+
+        # Update task status
+        status_value = request.data.get("status")
+        if status_value:
+            task.status = status_value
+            task.save()
+
+            # Serialize the updated task
+            serializer = TaskSerializer(task)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response({"error": "Missing required field: 'status'."}, status=status.HTTP_400_BAD_REQUEST)
