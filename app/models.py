@@ -4,7 +4,9 @@ from django.contrib.auth.models import (
     BaseUserManager,
 )
 from django.db import models
-#imported models
+
+# imported models
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -73,3 +75,8 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=50)
+    total_amount = models.IntegerField()
