@@ -31,8 +31,8 @@ debug.log
 */migrations/*
 
 # Docker files
-*.dockerignore
-Dockerfile
+#*.dockerignore
+#Dockerfile
 
 # System files
 .DS_Store
